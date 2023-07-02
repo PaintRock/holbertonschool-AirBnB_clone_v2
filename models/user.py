@@ -4,6 +4,9 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from os import getenv
+from models.place import Place
+from models.review import Review
+
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
@@ -13,6 +16,7 @@ class User(BaseModel, Base):
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
     
-    def __init__(self, *args, **kwargs):
-        """ ok add some kwarg"""
-        super().__init__(*args, **kwargs)
+    places = relationship('Place', backref='user',
+                        cascade='all, delete-orphan')
+    reviews = relationship('Review', backref='user',
+                        cascade='all, delete-orphan')
