@@ -227,21 +227,20 @@ class HBNBCommand(cmd.Cmd):
             objects = storage.all(eval(args))
             for v in objects.values():
                 print_list.append("[{}] ({}) {}".format(
-                v.__class__.__name__,
-                v.id,
-                v.__dict__
-            ))
+                                    v.__class__.__name__,
+                                    v.id,
+                                    v.__dict__
+                                    ))
         else:
             objects = storage.all()
             for v in objects.values():
                 print_list.append("[{}] ({}) {}".format(
-                v.__class__.__name__,
-                v.id,
-                v.__dict__
-            ))
+                                    v.__class__.__name__,
+                                    v.id,
+                                    v.__dict__
+                                    ))
 
         print(print_list)
-
 
     def help_all(self):
         """ Help information for the all command """
