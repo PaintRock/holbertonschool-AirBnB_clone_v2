@@ -33,13 +33,13 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    reviews = relationship('Review', backref='place',
-                           cascade='all, delete, delete-orphan')
-    amenities = relationship("Amenity", secondary="place_amenity",
-                             backref="place_amenities",
-                             viewonly=False)
-
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        reviews = relationship('Review', backref='place',
+                               cascade='all, delete, delete-orphan')
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                 backref="place_amenities",
+                                 viewonly=False)
+    else:
         @property
         def reviews(self):
             """ method gets a review list for linked reviews"""
