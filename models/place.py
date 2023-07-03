@@ -33,28 +33,28 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship('Review', backref='place', cascade='all, delete, delete-orphan')
-        amenities = relationship("Amenity",
-                                 secondary="place_amenity",
-                                 backref="place_amenities",
-                                 viewonly=False)
+    reviews = relationship('Review', backref='place',
+                           cascade='all, delete, delete-orphan')
+    amenities = relationship("Amenity", secondary="place_amenity",
+                             backref="place_amenities",
+                             viewonly=False)
 
-    else:
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         @property
         def reviews(self):
-            """Attribute for FileStorage"""
+            """ method gets a review list for linked reviews"""
             review_list = []
-            for review in models.storage.all(Review).values():
+            for review in list(models.storage.all(Review).values()):
                 if review.place_id == self.id:
                     review_list.append(review)
+            return review_list
 
         @property
         def amenities(self):
-            """ Getter attribute amenities """
+            """ method gets and sets linked amenities """
             amenity_list = []
-            all_amenities =  models.storage.all(Amenity)
-            for amenity in all_amenities.values():
+            all_amenities =  list(models.storage.all(Amenity).values())
+            for amenity in all_amenities:
                 if amenity.id in self.amenity_ids:
                     amenity_list.append(amenity)
             return amenity_list
@@ -62,6 +62,5 @@ class Place(BaseModel, Base):
         @amenities.setter
         def amenities(self, value):
             """ Setter attribute amenities """
-            
             if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
