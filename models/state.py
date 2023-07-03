@@ -6,6 +6,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
 from models.city import City
+from models.state import State
 
 
 class State(BaseModel, Base):
@@ -21,7 +22,7 @@ class State(BaseModel, Base):
         def cities(self):
             """city getter"""
             city_list = []
-            for obj in models.storage.all(City).values():
+            for obj in list(models.storage.all(City).values()):
                 if obj.state_id == self.id:
                     city_list.append(obj)
             return city_list
