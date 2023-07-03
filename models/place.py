@@ -34,7 +34,7 @@ class Place(BaseModel, Base):
     amenity_ids = []
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship('Review', backref='place', cascade='delete')
+        reviews = relationship('Review', backref='place', cascade='all, delete, delete-orphan')
         amenities = relationship("Amenity",
                                  secondary="place_amenity",
                                  backref="place_amenities",
@@ -53,13 +53,15 @@ class Place(BaseModel, Base):
         def amenities(self):
             """ Getter attribute amenities """
             amenity_list = []
-            for amenity in models.storage.all(Amenity).values():
+            all_amenities =  models.storage.all(Amenity).values()
+            for amenity in all_amenities:
                 if amenity.id in self.amenity_ids:
                     amenity_list.append(amenity)
             return amenity_list
 
         @amenities.setter
-        def amenities(self, amenity_obj):
+        def amenities(self, value):
             """ Setter attribute amenities """
-            if isinstance(amenity_obj, Amenity):
-                self.amenity_ids.append(amenity_obj.id)
+            
+            if isinstance(value, Amenity):
+                self.amenity_ids.append(value.id)
