@@ -45,17 +45,20 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
 
     def all(self, cls=None):
+        """ class lists all for the query in database session """
+        classes = {City, State, User, Place, Amenity, Review}
         class_dict = {}
-        if not cls:
-            for actual_class in classes.values():
-                object_list = self.__session.query(actual_class).all()
-                for obj in object_list:
-                    key = "{}.{}".format(type(obj).__name__, obj.id)
-                    class_dict[key] = obj
-        else:
-            object_list = self.__session.query(cls).all()
-            for obj in object_list:
-                key = "{}.{}".format(type(obj).__name__, obj.id)
+        if cls in classes:
+            actual_class = self.__session.query(cls).all()
+            for obj in actual_class:
+                key = "{}.{}".format(obj.__class__.__name__, obj.id)
+                class_dict[key] = obj
+        elif cls is None:
+            class_dict = []
+            for cls in classes:
+                actual_class += self.__session.query(cls).all()
+            for obj in actual_class:
+                key = "{}.{}".format(obj.__class__.__name__, obj.id)
                 class_dict[key] = obj
         return class_dict
 
