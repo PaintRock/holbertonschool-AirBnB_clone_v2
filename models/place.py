@@ -53,8 +53,8 @@ class Place(BaseModel, Base):
         def amenities(self):
             """ Getter attribute amenities """
             amenity_list = []
-            all_amenities =  models.storage.all(Amenity).values()
-            for amenity in all_amenities:
+            all_amenities =  models.storage.all(Amenity)
+            for amenity in all_amenities.values():
                 if amenity.id in self.amenity_ids:
                     amenity_list.append(amenity)
             return amenity_list
