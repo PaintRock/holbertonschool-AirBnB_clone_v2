@@ -53,7 +53,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             """ method gets and sets linked amenities """
             amenity_list = []
-            all_amenities =  list(models.storage.all(Amenity).values())
+            all_amenities = list(models.storage.all(Amenity).values())
             for amenity in all_amenities:
                 if amenity.id in self.amenity_ids:
                     amenity_list.append(amenity)
