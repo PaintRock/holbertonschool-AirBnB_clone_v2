@@ -7,20 +7,20 @@ from sqlalchemy.orm import relationship
 import models
 
 
-# HBNB_TYPE_STORAGE = os.getenv('HBNB_TYPE_STORAGE')
-
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship("City", cascade="all, delete, delete-orphan", backref="state")
+        cities = relationship("City",
+                              cascade="all, delete, delete-orphan",
+                              backref="state")
     else:
         @property
         def cities(self):
             """city getter"""
-            from models.city import city
+            from models.city import City
 
             city_list = []
             for city in models.storage.all(City).values():
