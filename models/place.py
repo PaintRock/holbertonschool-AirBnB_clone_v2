@@ -44,7 +44,7 @@ class Place(BaseModel, Base):
         def reviews(self):
             """ method gets a review list for linked reviews"""
             review_list = []
-            for review in list(models.storage.all(Review).values()):
+            for review in models.storage.all(Review).values():
                 if review.place_id == self.id:
                     review_list.append(review)
             return review_list
@@ -53,7 +53,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             """ method gets and sets linked amenities """
             amenity_list = []
-            all_amenities = list(models.storage.all(Amenity).values())
+            all_amenities = models.storage.all(Amenity).values()
             for amenity in all_amenities:
                 if amenity.id in self.amenity_ids:
                     amenity_list.append(amenity)
