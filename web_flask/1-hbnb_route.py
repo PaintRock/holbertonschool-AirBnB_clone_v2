@@ -9,6 +9,7 @@ def hello():
     """This says hello"""
     return 'Hello HBNB!'
 
+
 def hbnb():
     """This says HBNB"""
     return 'HBNB'
