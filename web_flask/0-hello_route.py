@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def hello():
+"""This says hello"""
     return 'Hello HBNB!'
 
 if __name__== '__main__':
