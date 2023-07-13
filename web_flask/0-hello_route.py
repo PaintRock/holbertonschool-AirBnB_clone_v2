@@ -2,8 +2,8 @@
 from flask import Flask
 """This is a file to start the web application"""
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def hello():
