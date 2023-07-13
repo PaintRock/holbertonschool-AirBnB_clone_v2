@@ -3,7 +3,7 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -114,8 +114,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        param = args.split(' ')
-        if not param:
+        param = args.split()
+        if not args:
             print("** class name missing **")
             return
         elif param[0] not in HBNBCommand.classes:
@@ -124,17 +124,25 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[param[0]]()
         for param_indx in range(1, len(param)):
             try:
-                param_1 = param[param_indx].split('=')
-                key = param_1[0]
-                value = param_1[1]
-                value = value.replace('_', ' ')
-                value = value.replace('\"', '')
-                if type(value) in (str, int, float):
-                    setattr(new_instance, key, value)
+                k_v = param[param_indx].split('=')
+                new_k = k_v[0]
+                new_v = k_v[1]
+                if '\"' in new_v:
+                    new_v = new_v[1:-1]
+                    new_v = new_v.replace('_', ' ')
+                elif '.' in new_v:
+                    new_v = float(new_v)
+                else:
+                    new_v = int(new_v)
+
+                if hasattr(new_instance, new_k):
+                    setattr(new_instance, new_k, new_v)
             except Exception:
                 continue
+
+        storage.new(new_instance)
+        storage.save()
         print(new_instance.id)
-        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -208,7 +216,7 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
+        """Shows all objects, or all objects of a class"""
         print_list = []
 
         if args:
@@ -216,12 +224,21 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+            objects = storage.all(eval(args))
+            for v in objects.values():
+                print_list.append("[{}] ({}) {}".format(
+                                    v.__class__.__name__,
+                                    v.id,
+                                    v.__dict__
+                                    ))
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
+            objects = storage.all()
+            for v in objects.values():
+                print_list.append("[{}] ({}) {}".format(
+                                    v.__class__.__name__,
+                                    v.id,
+                                    v.__dict__
+                                    ))
 
         print(print_list)
 

@@ -32,6 +32,3 @@ class test_User(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.password), str)
-
-    def test_updated_at(self)
-    
