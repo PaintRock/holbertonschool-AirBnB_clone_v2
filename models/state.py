@@ -6,7 +6,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
 from models.city import City
-from models import storage
+
 
 
 class State(BaseModel, Base):
@@ -31,6 +31,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Getter method to return the list of City objects from storage"""
+            from models import storage
             cities_list = []
             for city in list(storage.all(City).values()):
                 if city.state_id == self.id:
