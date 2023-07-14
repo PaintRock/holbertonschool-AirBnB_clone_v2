@@ -25,3 +25,11 @@ class State(BaseModel, Base):
                 if obj.state_id == self.id:
                     city_list.append(obj)
             return city_list
+
+    def cities(self):
+        """getter added in web_flask """
+        cities_list = []
+        for city in list (storage.all(City).value()):
+            if city.state.id == self.id:
+                cities_list.append(city)
+        return cities_list
