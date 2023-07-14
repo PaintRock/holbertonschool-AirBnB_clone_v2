@@ -26,11 +26,12 @@ class State(BaseModel, Base):
                     city_list.append(obj)
             return city_list
 
-    def cities(self):
-        """getter added in web_flask """
-        from models import storage
-        cities_list = []
-        for city in list(storage.all(City).value()):
-            if city.state.id == self.id:
-                cities_list.append(city)
-        return cities_list if len(cities_list) > 0 else None
+    if storage_type != 'db':
+        @property
+        def cities(self):
+            """Getter method to return the list of City objects from storage"""
+            cities_list = []
+            for city in list(storage.all(City).values()):
+                if city.state_id == self.id:
+                    cities_list.append(city)
+            return cities_list
