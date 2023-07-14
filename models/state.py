@@ -27,7 +27,7 @@ class State(BaseModel, Base):
                     city_list.append(obj)
             return city_list
 
-    if models.storage_type != 'db':
+    if models.storage_type != 'db.storage.py':
         @property
         def cities(self):
             """Getter method to return the list of City objects from storage"""
