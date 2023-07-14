@@ -8,7 +8,6 @@ import models
 from models.city import City
 
 
-
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
@@ -31,7 +30,7 @@ class State(BaseModel, Base):
         """getter added in web_flask """
         from models import storage
         cities_list = []
-        for city in list (storage.all(City).value()):
+        for city in list(storage.all(City).value()):
             if city.state.id == self.id:
                 cities_list.append(city)
         return cities_list if len(cities_list) > 0 else None
