@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is a file to start the web application"""
 from flask import Flask
+from flask import render_template
 app = Flask(__name__)
 
 
@@ -43,6 +44,7 @@ def number_template(n):
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def number_odd_or_even (n):
     """Displays the HTML page only if n is an integer"""
+    return render_template('6-number_odd_or_even.html', n=n)
     
     
 if __name__ == '__main__':
