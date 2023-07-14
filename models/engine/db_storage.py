@@ -83,4 +83,4 @@ class DBStorage:
 
     def close(self):
         """Added for web_flask"""
-        self.__session.remove()
+        self.__session.close()
