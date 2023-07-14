@@ -6,14 +6,10 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
 from models.city import City
-
-
-
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship("City", backref="state",
                               cascade="all, delete, delete-orphan")
@@ -22,17 +18,8 @@ class State(BaseModel, Base):
         def cities(self):
             """city getter"""
             city_list = []
-            for obj in models.storage.all(City).values():
-                if obj.state_id == self.id:
+            all_cities = models.storage.all(City)
+            for obj in all_cities.values():
+                if self.id == obj.state_id:
                     city_list.append(obj)
             return city_list
-
-    if models.storage_type != 'db.storage.py':
-        @property
-        def cities(self):
-            """Getter method to return the list of City objects from storage"""
-            cities_list = []
-            for city in list(storage.all(City).values()):
-                if city.state_id == self.id:
-                    cities_list.append(city)
-            return cities_list
