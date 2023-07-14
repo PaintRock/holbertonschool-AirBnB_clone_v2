@@ -6,6 +6,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
 from models.city import City
+from models import storage
 
 
 class State(BaseModel, Base):
@@ -32,4 +33,4 @@ class State(BaseModel, Base):
         for city in list (storage.all(City).value()):
             if city.state.id == self.id:
                 cities_list.append(city)
-        return cities_list
+        return cities_list if len(cities_list) > 0 else None
