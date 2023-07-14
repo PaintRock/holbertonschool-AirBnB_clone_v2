@@ -6,7 +6,7 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 import models
 from models.city import City
-from models import storage
+
 
 
 class State(BaseModel, Base):
@@ -29,6 +29,7 @@ class State(BaseModel, Base):
 
     def cities(self):
         """getter added in web_flask """
+        from models import storage
         cities_list = []
         for city in list (storage.all(City).value()):
             if city.state.id == self.id:
