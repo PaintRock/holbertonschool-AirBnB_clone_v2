@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""we are fetching states from dbstorage"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
