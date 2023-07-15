@@ -10,6 +10,8 @@ app = Flask(__name__)
 
 """ Define the teardown_appcontext method to close the
 SQLAlchemy session after each request """
+
+
 @app.teardown_appcontext
 def teardown_db(exception):
     """This defines the teardown"""
