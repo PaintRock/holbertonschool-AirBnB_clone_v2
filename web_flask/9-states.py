@@ -27,7 +27,7 @@ def cities_list(id):
     """Render the HTML page displaying cities for a specific state."""
     state = storage.get(State, id)
     if state is None:
-        return render_template('states_and_cities.html', states=None,\
+        return render_template('states_and_cities.html', states=None,
         cities=None)
 
     cities = sorted(state.cities, key=lambda x: x.name)
