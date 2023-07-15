@@ -7,16 +7,16 @@ from models.state import State
 #Create the Flask application
 app = Flask(__name__)
 
-#Define the teardown_appcontext method to close theSQLAlchemy session after each request
+#Define the teardown_appcontext method to close the SQLAlchemy session after each request
 @app.teardown_appcontext
 def teardown_db(exception):
-"""This defines the teardown"""
+    """This defines the teardown"""
     storage.close()
 
 #Define the /state_list route
-@app.route('state_list', strict_slashes=False)
+@app.route('/state_list', strict_slashes=False)
 def states_list():
-    """Fetch all State objects from the DBStorage sorted byname(A->Z)"""
+    """Fetch all State objects from the DBStorage sorted by name (A->Z)"""
     states = storage.all(State)
     sorted_states = sorted(states.values(), key=lambda state: state.name)
 
