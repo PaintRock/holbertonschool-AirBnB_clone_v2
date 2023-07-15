@@ -22,7 +22,7 @@ def load_cities_by_states():
     cities_by_states = {}
     for state in st:
         if storage.__class__.__name__ == 'DBStorage':
-            cities = sorted([city for city in state.cities],\
+            cities = sorted([city for city in state.cities],/
                 key=lambda x: x.name)
         else:
             cities = sorted(list(state.cities), key=lambda x: x.name)
