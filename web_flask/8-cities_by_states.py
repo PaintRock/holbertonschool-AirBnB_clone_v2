@@ -16,11 +16,11 @@ def teardown_session(exception=None):
 def load_cities_by_states():
     """Load all cities of a state from the storage engine."""
     if storage.__class__.__name__ == 'DBStorage':
-        states = sorted(storage.all("State").values(), key=lambda x: x.name)
+        st = sorted(storage.all("State").values(), key=lambda x: x.name)
     else:
-        states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
+        st = sorted(list(storage.all("State").values()), key=lambda x: x.name)
     cities_by_states = {}
-    for state in states:
+    for state in st:
         if storage.__class__.__name__ == 'DBStorage':
             cities = sorted([city for city in state.cities], key=lambda x: x.name)
         else:
