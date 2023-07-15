@@ -8,11 +8,13 @@
     <ul>
         {% for state_id, state_data in cities_data.items() %}
             <li>{{ state_id }}: <b>{{ state_data.state }}</b>
-                <ul>
-                    {% for city in state_data.cities %}
-                        <li>{{ city.id }}: <b>{{ city.name }}</b></li>
-                    {% endfor %}
-                </ul>
+                {% if state_data.cities %}
+                    <ul>
+                        {% for city in state_data.cities %}
+                            <li>{{ city.id }}: <b>{{ city.name }}</b></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
