@@ -22,7 +22,7 @@ def teardown_db(exception):
 @app.route('/state_list', strict_slashes=False)
 def states_list():
     """Fetch all State objects from the DBStorage sorted by name (A->Z)"""
-    states = storage.all(State)
+    states = storage.all("State").value
     # Render the template with the list of states
     return render_template('7-states_list.html', states=states)
 
