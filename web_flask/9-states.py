@@ -17,7 +17,8 @@ def teardown_session(exception=None):
 def states_list():
     """Render the HTML page displaying the list of states."""
     states = sorted(storage.all(State).values(), key=lambda x: x.name)
-    return render_template('states_and_cities.html', states=states, cities=None)
+    return render_template('states_and_cities.html',\
+        states=states, cities=None)
 
 
 @app.route('/states/<id>', strict_slashes=False)
@@ -25,10 +26,12 @@ def cities_list(id):
     """Render the HTML page displaying cities for a specific state."""
     state = storage.get(State, id)
     if state is None:
-        return render_template('states_and_cities.html', states=None, cities=None)
+        return render_template('states_and_cities.html',\
+            states=None, cities=None)
 
     cities = sorted(state.cities, key=lambda x: x.name)
-    return render_template('states_and_cities.html', states=None, cities=cities)
+    return render_template('states_and_cities.html',\
+        states=None, cities=cities)
 
 
 if __name__ == '__main__':
