@@ -23,10 +23,8 @@ def teardown_db(exception):
 def states_list():
     """Fetch all State objects from the DBStorage sorted by name (A->Z)"""
     states = storage.all(State)
-    sorted_states = sorted(states.values(), key=lambda state: state.name)
-
     # Render the template with the list of states
-    return render_template('states_list.html', states=sorted_states)
+    return render_template('7-states_list.html', states=states)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
